@@ -52,19 +52,19 @@ module.exports.openSync = openSync;
 
 const checkBusNumber = (busNumber) => {
   if (process.platform === 'linux' &&
-      (!Number.isInteger(busNumber) || busNumber < 0)) {
+    (!Number.isInteger(busNumber) || busNumber < 0)) {
     throw new Error('Invalid I2C bus number ' + busNumber);
   }
 };
 
 const checkAddress = (addr) => {
-  if (!Number.isInteger(addr) || addr < 0  || addr > 0x7f) {
+  if (!Number.isInteger(addr) || addr < 0 || addr > 0x7f) {
     throw new Error('Invalid I2C address ' + addr);
   }
 };
 
 const checkCommand = (cmd) => {
-  if (!Number.isInteger(cmd) || cmd < 0  || cmd > 0xff) {
+  if (!Number.isInteger(cmd) || cmd < 0 || cmd > 0xff) {
     throw new Error('Invalid I2C command ' + cmd);
   }
 };
@@ -83,8 +83,8 @@ const checkBuffer = (buffer) => {
 
 const checkBufferAndLength = (length, buffer, maxLength) => {
   if (!Number.isInteger(length) ||
-      length < 0 ||
-      (maxLength !== undefined && length > maxLength)) {
+    length < 0 ||
+    (maxLength !== undefined && length > maxLength)) {
     throw new Error('Invalid buffer length ' + length);
   }
 
@@ -96,19 +96,19 @@ const checkBufferAndLength = (length, buffer, maxLength) => {
 };
 
 const checkByte = (byte) => {
-  if (!Number.isInteger(byte) || byte < 0  || byte > 0xff) {
+  if (!Number.isInteger(byte) || byte < 0 || byte > 0xff) {
     throw new Error('Invalid byte ' + byte);
   }
 };
 
 const checkWord = (word) => {
-  if (!Number.isInteger(word) || word < 0  || word > 0xffff) {
+  if (!Number.isInteger(word) || word < 0 || word > 0xffff) {
     throw new Error('Invalid word ' + word);
   }
 };
 
 const checkBit = (bit) => {
-  if (!Number.isInteger(bit) || bit < 0  || bit > 1) {
+  if (!Number.isInteger(bit) || bit < 0 || bit > 1) {
     throw new Error('Invalid bit ' + bit);
   }
 };
@@ -541,7 +541,7 @@ class Bus {
     checkBufferAndLength(length, buffer);
     checkCallback(cb);
 
-    peripheral(this, addr, (err, device) => {
+    peripheral(globalBus, addr, (err, device) => {
       if (err) {
         return cb(err);
       }
@@ -571,7 +571,7 @@ class Bus {
     checkAddress(startAddr);
     checkAddress(endAddr);
 
-    const scanBus = open(this._busNumber, {forceAccess: this._forceAccess}, (err) => {
+    const scanBus = open(this._busNumber, { forceAccess: this._forceAccess }, (err) => {
       const addresses = [];
       if (err) {
         return cb(err);
@@ -611,7 +611,7 @@ class Bus {
     checkAddress(startAddr);
     checkAddress(endAddr);
 
-    const scanBus = openSync(this._busNumber, {forceAccess: this._forceAccess});
+    const scanBus = openSync(this._busNumber, { forceAccess: this._forceAccess });
     const addresses = [];
 
     for (let addr = startAddr; addr <= endAddr; addr += 1) {
