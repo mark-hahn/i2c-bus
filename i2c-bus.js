@@ -520,7 +520,7 @@ class Bus {
     checkBufferAndLength(length, buffer);
     checkCallback(cb);
 
-    peripheral(this, addr, (err, device) => {
+    peripheral(globalBus, addr, (err, device) => {
       if (err) {
         return cb(err);
       }
